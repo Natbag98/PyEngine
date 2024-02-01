@@ -1,6 +1,3 @@
-import sys
-sys.path.append('..\\..')
-
 from main import App
 
 import pygame
@@ -18,7 +15,7 @@ class GraphicsEngine:
         }
 
         self.color_palatte = {
-            self.color_palatte[color]: numpy.array([colors[color][0] / 255, colors[color][1] / 255, colors[color][2] / 255], dtype=numpy.float32)
+            color: numpy.array([colors[color][0] / 255, colors[color][1] / 255, colors[color][2] / 255], dtype=numpy.float32)
             for color in colors
         }
 

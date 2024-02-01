@@ -1,5 +1,9 @@
 import os
+import sys
 import pygame
+
+sys.path.append('..')
+sys.path.append('..\\..')
 
 
 class App:

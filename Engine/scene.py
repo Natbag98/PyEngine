@@ -1,8 +1,5 @@
-import sys
-sys.path.append('..')
-
 from main import App
-from camera import Camera
+from Engine.camera import Camera
 
 
 class Scene:

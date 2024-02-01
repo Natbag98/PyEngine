@@ -1,6 +1,3 @@
-import sys
-sys.path.append('..\\..')
-
 from main import App
 from scene import Scene
 
