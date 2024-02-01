@@ -10,10 +10,10 @@ class App:
     NAME = ''
 
     def __init__(self):
-        from Engine.graphics_engine import GraphicsEngine
+        from Engine.graphics_engine.graphics_engine import GraphicsEngine
         
         self.graphics_engine = GraphicsEngine(self)
-        self.scene = None
+        self.active_scene = None
 
         self.clock = pygame.time.Clock()
         self.delta_time = 0
@@ -33,8 +33,10 @@ class App:
             self.delta_time /= 1000
 
             self.check_events()
+            self.active_scene.physics_update()
+            self.active_scene.update()
             self.graphics_engine.render()
-    
+
     def exit(self):
         self.graphics_engine.destroy()
         quit()
