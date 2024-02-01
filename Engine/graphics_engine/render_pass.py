@@ -1,5 +1,5 @@
 from main import App
-from scene import Scene
+from Engine.scene import Scene
 
 from OpenGL.GL import *
 from pyrr import matrix44
@@ -14,7 +14,7 @@ class RenderPass:
         glUseProgram(self.shader)
 
         projection_matrix = matrix44.create_perspective_projection(45, self.app.ASPECT, 0.1, 200, numpy.float32)
-        glUniform4fv(
+        glUniformMatrix4fv(
             glGetUniformLocation(self.shader, 'projection'),
             1,
             GL_FALSE,
@@ -34,6 +34,9 @@ class RenderPass:
             scene.camera.up,
             numpy.float32
         )
-        glUniform4fv(self.view_uniform_location, 1, GL_FALSE, view_matrix)
+        glUniformMatrix4fv(self.view_uniform_location, 1, GL_FALSE, view_matrix)
 
         scene.render()
+    
+    def destroy(self):
+        glDeleteProgram(self.shader)

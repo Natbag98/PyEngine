@@ -23,7 +23,9 @@ class App:
         self.delta_time = 0
 
         self.running = False
-    
+
+        self.meshes = {}
+
     def check_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -39,8 +41,9 @@ class App:
             self.check_events()
             self.active_scene.physics_update()
             self.active_scene.update()
-            self.graphics_engine.render()
+            self.graphics_engine.render(self.active_scene)
 
     def exit(self):
         self.graphics_engine.destroy()
+        [m.destroy() for m in self.meshes]
         quit()

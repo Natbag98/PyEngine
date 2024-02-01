@@ -1,4 +1,5 @@
 from main import App
+from Engine.graphics_engine.render_pass import RenderPass
 
 import pygame
 import numpy
@@ -34,8 +35,8 @@ class GraphicsEngine:
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
         self.shader = self.compile_shader('vertex.glsl', 'fragment.glsl')
-        self.render_pass = None
-    
+        self.render_pass = RenderPass(self.app, self.shader)
+
     def compile_shader(self, vertex_file_name, fragment_file_name):
         with open(f'{self.app.DIR}\\Engine\\shaders\\{vertex_file_name}', 'r') as file:
             vertex_src = file.readlines()
@@ -48,8 +49,9 @@ class GraphicsEngine:
             compileShader(fragment_src, GL_FRAGMENT_SHADER)
         )
 
-    def render(self):
-        pass
+    def render(self, scene):
+        self.render_pass.render(scene)
 
     def destroy(self):
+        self.render_pass.destroy()
         pygame.quit()
