@@ -24,8 +24,6 @@ class App:
 
         self.running = False
 
-        self.meshes = {}
-
     def check_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -45,5 +43,4 @@ class App:
 
     def exit(self):
         self.graphics_engine.destroy()
-        [m.destroy() for m in self.meshes]
         quit()

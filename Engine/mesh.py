@@ -1,4 +1,4 @@
-from Utilities.wavefront_loader import WavefrontLoader
+from Engine.Utilities.wavefront_loader import WavefrontLoader
 
 from OpenGL.GL import *
 import numpy
@@ -20,7 +20,7 @@ class Mesh:
         glBindVertexArray(self.vertex_array_object)
 
         # Setup vertex buffer object
-        self.vertex_buffer_object = glGenVertexArrays(1)
+        self.vertex_buffer_object = glGenBuffers(1)
         glBindBuffer(GL_ARRAY_BUFFER, self.vertex_buffer_object)
         glBufferData(GL_ARRAY_BUFFER, self.vertices.nbytes, self.vertices, GL_STATIC_DRAW)
 

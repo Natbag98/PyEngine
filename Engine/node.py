@@ -1,9 +1,10 @@
-from transform import Transform
+from Engine.transform import Transform
+from Engine.scene import Scene
 
 
-class node:
+class Node:
 
-    def __init__(self, scene, name):
+    def __init__(self, scene: Scene, name):
         self.scene = scene
         self.name = name
 
@@ -24,20 +25,23 @@ class node:
         self.parent = target
         target.children.insert(0, self)
     
-    def add_component(self, name, component):
+    def add_component(self, component, name=None):
+        if not name:
+            name = component.__class__.__name__
+
         if name in self.components:
             raise ValueError('Component name already exists')
 
         self.components[name] = component
 
     def physics_update(self):
-        [c.physics_update() for c in self.components]
+        [c.physics_update() for c in self.components.values()]
         [c.physics_update() for c in self.children]
 
     def update(self):
-        [c.update() for c in self.components]
-        [c.physics_update() for c in self.children]
+        [c.update() for c in self.components.values()]
+        [c.update() for c in self.children]
 
     def render(self):
-        [c.render() for c in self.components]
-        [c.physics_update() for c in self.children]
+        [c.render() for c in self.components.values()]
+        [c.render() for c in self.children]

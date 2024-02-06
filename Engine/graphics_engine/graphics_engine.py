@@ -1,5 +1,6 @@
 from main import App
 from Engine.graphics_engine.render_pass import RenderPass
+from Engine.mesh import Mesh
 
 import pygame
 import numpy
@@ -11,8 +12,11 @@ class GraphicsEngine:
     def __init__(self, app: App):
         self.app = app
 
+        self.meshes = {}
+
         colors = {
-            'Navy': (0, 13, 107)
+            'navy': (0, 13, 107),
+            'red': (255, 0, 0)
         }
 
         self.color_palatte = {
@@ -29,13 +33,19 @@ class GraphicsEngine:
         pygame.display.set_caption(self.app.NAME)
 
         # Init OpenGL
-        glClearColor(self.color_palatte['Navy'][0], self.color_palatte['Navy'][1], self.color_palatte['Navy'][2], 1)
+        glClearColor(self.color_palatte['navy'][0], self.color_palatte['navy'][1], self.color_palatte['navy'][2], 1)
         glEnable(GL_DEPTH_TEST)
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
         self.shader = self.compile_shader('vertex.glsl', 'fragment.glsl')
         self.render_pass = RenderPass(self.app, self.shader)
+    
+    def new_mesh(self, file_name, name):
+        if name in self.meshes:
+            raise ValueError(f'{name} is already the name of a mesh')
+
+        self.meshes[name] = Mesh(file_name)
 
     def compile_shader(self, vertex_file_name, fragment_file_name):
         with open(f'{self.app.DIR}\\Engine\\shaders\\{vertex_file_name}', 'r') as file:
@@ -50,8 +60,11 @@ class GraphicsEngine:
         )
 
     def render(self, scene):
+        glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT)
         self.render_pass.render(scene)
+        pygame.display.flip()
 
     def destroy(self):
+        [m.destroy() for m in self.meshes]
         self.render_pass.destroy()
         pygame.quit()
