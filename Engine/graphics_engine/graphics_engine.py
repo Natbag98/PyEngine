@@ -23,6 +23,7 @@ class GraphicsEngine:
             color: numpy.array([colors[color][0] / 255, colors[color][1] / 255, colors[color][2] / 255], dtype=numpy.float32)
             for color in colors
         }
+        print(self.color_palatte)
 
         # Init pygame
         pygame.init()
@@ -54,10 +55,12 @@ class GraphicsEngine:
         with open(f'{self.app.DIR}\\Engine\\shaders\\{fragment_file_name}', 'r') as file:
             fragment_src = file.readlines()
         
-        return compileProgram(
+        program = compileProgram(
             compileShader(vertex_src, GL_VERTEX_SHADER),
             compileShader(fragment_src, GL_FRAGMENT_SHADER)
         )
+
+        return program
 
     def render(self, scene):
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT)

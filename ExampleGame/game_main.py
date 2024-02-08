@@ -7,6 +7,8 @@ from Engine.scene import Scene
 from Engine.node import Node
 from Engine.components.render_mesh import RenderMesh
 
+from Components.Scripts.spin_script import SpinScript
+
 from OpenGL.GL import GL_TRIANGLES
 
 
@@ -16,8 +18,10 @@ def main():
     
     scene = Scene(app)
     car = Node(scene, 'car')
-    car.transform.set_local_position((0, 0, 100))
+    car.transform.set_local_position((0, 0, 10))
+    car.transform.set_eulers((0, 0, 90))
     car.add_component(RenderMesh(car, 'car', GL_TRIANGLES, 'red'))
+    car.add_component(SpinScript(car, 1))
     car.set_parent(scene)
 
     app.active_scene = scene

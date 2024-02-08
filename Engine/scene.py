@@ -6,6 +6,7 @@ class Scene:
 
     def __init__(self, app: App):
         self.app = app
+        self.name = 'Scene'
 
         self.children = []
         self.camera = Camera()

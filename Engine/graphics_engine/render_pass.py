@@ -37,6 +37,6 @@ class RenderPass:
         glUniformMatrix4fv(self.view_uniform_location, 1, GL_FALSE, view_matrix)
 
         scene.render()
-    
+
     def destroy(self):
         glDeleteProgram(self.shader)

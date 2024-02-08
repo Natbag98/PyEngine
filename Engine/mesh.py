@@ -35,7 +35,7 @@ class Mesh:
 
         # Vertex texture coord
         glEnableVertexAttribArray(2)
-        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, self.stride, ctypes.c_void_p(24))
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, self.stride, ctypes.c_void_p(24))
 
     def destroy(self):
         glDeleteVertexArrays(1, (self.vertex_array_object,))

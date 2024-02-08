@@ -2,6 +2,7 @@ from Engine.component import Component
 from Engine.mesh import Mesh
 
 from OpenGL.GL import *
+import numpy
 
 
 class RenderMesh(Component):
@@ -15,7 +16,7 @@ class RenderMesh(Component):
         self.color = color
     
     def render(self):
-        glUniformMatrix3fv(self.render_pass.color_uniform_location, 1, GL_FALSE, self.node.scene.app.graphics_engine.color_palatte[self.color])
+        glUniform3fv(self.render_pass.color_uniform_location, 1, self.node.scene.app.graphics_engine.color_palatte[self.color])
         glUniformMatrix4fv(self.render_pass.model_uniform_location, 1, GL_FALSE, self.node.transform.get_world_space_matrix())
         glBindVertexArray(self.mesh.vertex_array_object)
         glDrawArrays(self.draw_mode, 0, self.mesh.vertex_count)

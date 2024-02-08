@@ -2,10 +2,10 @@
 
 in vec2 fragment_texture_coord;
 
-uniform vec3 object_color;
+uniform vec3 color;
 
-out vec4 color;
+out vec4 fragment_color;
 
 void main() {
-    color = vec4(object_color, 1.0);
+    fragment_color = vec4(color, 1.0);
 }

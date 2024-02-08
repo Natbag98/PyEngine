@@ -1,4 +1,3 @@
-from Engine.transform import Transform
 from Engine.scene import Scene
 
 
@@ -6,7 +5,12 @@ class Node:
 
     def __init__(self, scene: Scene, name):
         self.scene = scene
+
+        if name == 'Scene':
+            raise ValueError('Cannot name node \'Scene\'')
         self.name = name
+
+        from Engine.transform import Transform
 
         self.transform = Transform(self)
         self.components = {}
