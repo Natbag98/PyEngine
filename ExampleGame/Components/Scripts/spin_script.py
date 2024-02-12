@@ -4,8 +4,8 @@ from Engine.node import Node
 
 class SpinScript(Component):
 
-    def __init__(self, node: Node, spin_speed):
-        super().__init__(node)
+    def __init__(self, spin_speed):
+        super().__init__()
         
         self.spin_speed = spin_speed
 

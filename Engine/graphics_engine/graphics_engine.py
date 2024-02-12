@@ -1,6 +1,7 @@
 from main import App
 from Engine.graphics_engine.render_pass import RenderPass
 from Engine.mesh import Mesh
+from Engine.material import Material
 
 import pygame
 import numpy
@@ -13,6 +14,7 @@ class GraphicsEngine:
         self.app = app
 
         self.meshes = {}
+        self.materials = {}
 
         colors = {
             'navy': (0, 13, 107),
@@ -23,7 +25,6 @@ class GraphicsEngine:
             color: numpy.array([colors[color][0] / 255, colors[color][1] / 255, colors[color][2] / 255], dtype=numpy.float32)
             for color in colors
         }
-        print(self.color_palatte)
 
         # Init pygame
         pygame.init()
@@ -39,8 +40,15 @@ class GraphicsEngine:
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
-        self.shader = self.compile_shader('vertex.glsl', 'fragment.glsl')
-        self.render_pass = RenderPass(self.app, self.shader)
+        self.render_pass = RenderPass(self.app)
+    
+    def new_material(self, material: Material, name):
+        if name in self.materials:
+            raise ValueError(f'{name} is already the name of a material')
+        
+        material.graphics_engine = self
+        material.initialize()
+        self.materials[name] = material
     
     def new_mesh(self, file_name, name):
         if name in self.meshes:
@@ -48,11 +56,11 @@ class GraphicsEngine:
 
         self.meshes[name] = Mesh(file_name)
 
-    def compile_shader(self, vertex_file_name, fragment_file_name):
-        with open(f'{self.app.DIR}\\Engine\\shaders\\{vertex_file_name}', 'r') as file:
+    def compile_program(self, material_name):
+        with open(f'{self.app.DIR}\\Engine\\shaders\\{material_name}\\vertex.glsl', 'r') as file:
             vertex_src = file.readlines()
-        
-        with open(f'{self.app.DIR}\\Engine\\shaders\\{fragment_file_name}', 'r') as file:
+
+        with open(f'{self.app.DIR}\\Engine\\shaders\\{material_name}\\fragment.glsl', 'r') as file:
             fragment_src = file.readlines()
         
         program = compileProgram(
@@ -69,5 +77,5 @@ class GraphicsEngine:
 
     def destroy(self):
         [m.destroy() for m in self.meshes]
-        self.render_pass.destroy()
+        [m.destroy() for m in self.materials]
         pygame.quit()

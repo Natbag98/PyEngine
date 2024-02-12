@@ -1,4 +1,5 @@
 from Engine.scene import Scene
+from Engine.component import Component
 
 
 class Node:
@@ -26,16 +27,25 @@ class Node:
     def set_parent(self, target):
         self.attempt_remove_self_from_parent()
 
+        if target.name == 'Scene':
+            if not self.scene == target:
+                raise ValueError('Cannot parent object outside of scene')
+        else:
+            if not self.scene == target.scene:
+                raise ValueError('Cannot parent object outside of scene')
+
         self.parent = target
         target.children.insert(0, self)
     
-    def add_component(self, component, name=None):
+    def add_component(self, component: Component, name=None):
         if not name:
             name = component.__class__.__name__
 
         if name in self.components:
             raise ValueError('Component name already exists')
 
+        component.node = self
+        component.initialize()
         self.components[name] = component
 
     def physics_update(self):

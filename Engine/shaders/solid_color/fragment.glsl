@@ -1,7 +1,5 @@
 #version 450 core
 
-in vec2 fragment_texture_coord;
-
 uniform vec3 color;
 
 out vec4 fragment_color;
