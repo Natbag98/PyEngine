@@ -36,6 +36,9 @@ class App:
             self.delta_time = self.clock.tick(self.FPS)
             self.delta_time /= 1000
 
+            frame_rate = 1 / self.delta_time
+            pygame.display.set_caption(str(frame_rate))
+
             self.check_events()
             self.active_scene.physics_update()
             self.active_scene.update()
