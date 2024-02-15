@@ -5,16 +5,19 @@ import pygame
 sys.path.append('..')
 sys.path.append('..\\..')
 
+from Engine.Utilities.window_properties import WindowProperties
+
 
 class App:
     DIR = os.getcwd()
-    RES = WIDTH, HEIGHT = 800, 600
-    ASPECT = WIDTH / HEIGHT
-    FPS = 30
-    NAME = ''
 
-    def __init__(self):
+    def __init__(self, window_properties: WindowProperties=WindowProperties()):
         from Engine.graphics_engine.graphics_engine import GraphicsEngine
+
+        self.RES = self.WIDTH, self.HEIGHT = window_properties.width, window_properties.height
+        self.ASPECT = window_properties.width / window_properties.height
+        self.FPS = window_properties.fps
+        self.NAME = window_properties.name
         
         self.graphics_engine = GraphicsEngine(self)
         self.active_scene = None
