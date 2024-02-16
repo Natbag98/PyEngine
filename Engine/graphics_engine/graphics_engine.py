@@ -41,7 +41,14 @@ class GraphicsEngine:
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
         self.render_pass = RenderPass(self.app)
-    
+
+        # Display OpenGL version
+        print('OpenGL info:')
+        print(f'GL Vendor    : {glGetString(GL_VENDOR).decode('utf-8')}')
+        print(f'GL Renderer  : {glGetString(GL_RENDERER).decode('utf-8')}')
+        print(f'GL Version   : {glGetString(GL_VERSION).decode('utf-8')}')
+        print(f'GLSL Version : {glGetString(GL_SHADING_LANGUAGE_VERSION).decode('utf-8')}')
+
     def new_material(self, material: Material, name):
         if name in self.materials:
             raise ValueError(f'{name} is already the name of a material')
