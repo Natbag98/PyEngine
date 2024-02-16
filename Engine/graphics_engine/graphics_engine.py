@@ -62,13 +62,20 @@ class GraphicsEngine:
             raise ValueError(f'{name} is already the name of a mesh')
 
         self.meshes[name] = Mesh(file_name)
+    
+    def compile_shader_src(self, src: list[str]):
+        supported_version = self.app.SUPPORTED_OPENGL_GLSL_VERSIONS[self.app.GL_VERSION[:3]]
+        shader_version = src[0].split(' ')[1]
+        if not shader_version == supported_version:
+            src[0] = src[0].replace(shader_version, supported_version)
+        return src
 
     def compile_program(self, material_name):
         with open(f'{self.app.DIR}\\Engine\\shaders\\{material_name}\\vertex.glsl', 'r') as file:
-            vertex_src = file.readlines()
+            vertex_src = self.compile_shader_src(file.readlines())
 
         with open(f'{self.app.DIR}\\Engine\\shaders\\{material_name}\\fragment.glsl', 'r') as file:
-            fragment_src = file.readlines()
+            fragment_src = self.compile_shader_src(file.readlines())
         
         program = compileProgram(
             compileShader(vertex_src, GL_VERTEX_SHADER),
