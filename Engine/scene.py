@@ -1,5 +1,6 @@
 from main import App
 from Engine.camera import Camera
+from Engine.Lighting.point_light import PointLight
 
 
 class Scene:
@@ -9,7 +10,13 @@ class Scene:
         self.name = 'Scene'
 
         self.children = []
+        self.lights = []
         self.camera = Camera()
+    
+    def new_light(self, light: PointLight):
+        light.scene = self
+        light.initialize()
+        self.lights.append(light)
     
     def physics_update(self):
         [c.physics_update() for c in self.children]

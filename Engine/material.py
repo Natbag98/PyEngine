@@ -11,7 +11,7 @@ class Material:
         self.program = None
 
     def initialize(self):
-        self.program = self.graphics_engine.compile_program('_'.join(re.split('(?<=.)(?=[A-Z])', self.__class__.__name__)))
+        self.program = self.graphics_engine.compile_program('_'.join(re.split('(?<=.)(?=[A-Z])', self.__class__.__name__)).lower())
         glUseProgram(self.program)
 
         self.model_uniform_location = glGetUniformLocation(self.program, 'model')

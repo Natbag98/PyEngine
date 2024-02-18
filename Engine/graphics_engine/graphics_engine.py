@@ -15,6 +15,7 @@ class GraphicsEngine:
 
         self.meshes = {}
         self.materials = {}
+        self.lights = []
 
         colors = {
             'navy': (0, 13, 107),
@@ -85,6 +86,8 @@ class GraphicsEngine:
         return program
 
     def render(self, scene):
+        self.lights = self.app.active_scene.lights
+
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT)
         self.render_pass.render(scene)
         pygame.display.flip()
