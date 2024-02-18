@@ -10,4 +10,4 @@ class SpinScript(Component):
         self.spin_speed = spin_speed
 
     def update(self):
-        self.node.transform.set_eulers((0, 0, self.node.transform.eulers[2] + self.spin_speed))
+        self.node.transform.set_eulers((0, 0, self.node.transform.eulers[2] + self.spin_speed * self.node.scene.app.delta_time))

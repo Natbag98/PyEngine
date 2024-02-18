@@ -19,7 +19,8 @@ class GraphicsEngine:
 
         colors = {
             'navy': (0, 13, 107),
-            'red': (255, 0, 0)
+            'red': (255, 0, 0),
+            'black': (0, 0, 0)
         }
 
         self.color_palatte = {
@@ -36,7 +37,7 @@ class GraphicsEngine:
         pygame.display.set_caption(self.app.NAME)
 
         # Init OpenGL
-        glClearColor(self.color_palatte['navy'][0], self.color_palatte['navy'][1], self.color_palatte['navy'][2], 1)
+        glClearColor(self.color_palatte['black'][0], self.color_palatte['black'][1], self.color_palatte['black'][2], 1)
         glEnable(GL_DEPTH_TEST)
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
@@ -44,11 +45,16 @@ class GraphicsEngine:
         self.render_pass = RenderPass(self.app)
 
         # Display OpenGL version
+        gl_vendor = glGetString(GL_VENDOR).decode('utf-8')
+        gl_version = glGetString(GL_VERSION).decode('utf-8')
+        gl_renderer = glGetString(GL_RENDERER).decode('utf-8')
+        glsl_version = glGetString(GL_SHADING_LANGUAGE_VERSION).decode('utf-8')
+
         print('OpenGL info:')
-        print(f'GL Vendor    : {glGetString(GL_VENDOR).decode('utf-8')}')
-        print(f'GL Renderer  : {glGetString(GL_RENDERER).decode('utf-8')}')
-        print(f'GL Version   : {glGetString(GL_VERSION).decode('utf-8')}')
-        print(f'GLSL Version : {glGetString(GL_SHADING_LANGUAGE_VERSION).decode('utf-8')}')
+        print(f'GL Vendor    : {gl_vendor}')
+        print(f'GL Renderer  : {gl_renderer}')
+        print(f'GL Version   : {gl_version}')
+        print(f'GLSL Version : {glsl_version}')
 
     def new_material(self, material: Material, name):
         if name in self.materials:
