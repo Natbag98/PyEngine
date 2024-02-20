@@ -11,6 +11,7 @@ class Scene:
 
         self.children = []
         self.lights = []
+        self.ambient_lighting = 0.2
         self.camera = Camera()
     
     def new_light(self, light: PointLight):

@@ -33,7 +33,7 @@ def main():
 
     app.graphics_engine.new_material(SolidColor('red'), 'red')
     app.graphics_engine.new_material(SolidImage(f'{app.DIR}\\ExampleGame\\Assets\\wood_2.webp'), 'wood')
-    app.graphics_engine.new_material(BlinnPhongImage(f'{app.DIR}\\ExampleGame\\Assets\\wood_2.webp'), 'blinn_wood')
+    app.graphics_engine.new_material(BlinnPhongImage(f'{app.DIR}\\ExampleGame\\Assets\\wood_2.webp', 1), 'blinn_wood')
     app.graphics_engine.new_material(BlinnPhongSolid('black'), 'blinn_navy')
 
     scene = Scene(app)

@@ -14,6 +14,7 @@ out vec4 color;
 
 uniform sampler2D imageTexture;
 uniform PointLight point_light;
+uniform float ambient_light;
 
 vec3 calculate_point_light(PointLight _point_light, vec3 _fragment_position, vec3 _fragment_normal);
 
@@ -35,7 +36,7 @@ vec3 calculate_point_light(PointLight _point_light, vec3 _fragment_position, vec
     frag_to_light = normalize(frag_to_light);
 
     // Ambient lighting
-    result += 0.2 * base_texture;
+    result += ambient_light * base_texture;
 
     // Diffuse lighting
     result += _point_light.color * _point_light.strength * max(0.0, dot(_fragment_normal, frag_to_light)) / pow(frag_to_light_distance, 2.0);
