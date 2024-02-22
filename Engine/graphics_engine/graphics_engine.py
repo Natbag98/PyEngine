@@ -16,11 +16,14 @@ class GraphicsEngine:
         self.meshes = {}
         self.materials = {}
         self.lights = []
+        self.max_lights = 100
 
         colors = {
             'navy': (0, 13, 107),
             'red': (255, 0, 0),
-            'black': (0, 0, 0)
+            'black': (0, 0, 0),
+            'green': (0, 1, 0),
+            'purple': (128, 0, 128)
         }
 
         self.color_palatte = {
@@ -84,12 +87,10 @@ class GraphicsEngine:
         with open(f'{self.app.DIR}\\Engine\\shaders\\{material_name}\\fragment.glsl', 'r') as file:
             fragment_src = self.compile_shader_src(file.readlines())
         
-        program = compileProgram(
+        return compileProgram(
             compileShader(vertex_src, GL_VERTEX_SHADER),
             compileShader(fragment_src, GL_FRAGMENT_SHADER)
         )
-
-        return program
 
     def render(self, scene):
         self.lights = self.app.active_scene.lights
