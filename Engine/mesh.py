@@ -6,14 +6,14 @@ import numpy
 
 class Mesh:
     INT_BITSIZE = 4
+    VERTEX_SIZE = 8
 
     def __init__(self, filename):
-        self.vertex_size = 8
-        self.stride = self.INT_BITSIZE * self.vertex_size
+        self.stride = self.INT_BITSIZE * self.VERTEX_SIZE
 
         # v, vn, vt
         self.vertices = numpy.array(WavefrontLoader().load(filename), numpy.float32)
-        self.vertex_count = len(self.vertices) // self.vertex_size
+        self.vertex_count = len(self.vertices) // self.VERTEX_SIZE
 
         # Setup vertex array object
         self.vertex_array_object = glGenVertexArrays(1)

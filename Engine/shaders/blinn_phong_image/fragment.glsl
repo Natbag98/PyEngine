@@ -22,16 +22,17 @@ vec3 calculate_point_light(PointLight _point_light, vec3 _fragment_position, vec
 
 void main() {
     vec3 temp_color = vec3(0.0);
-    vec3 base_texture = texture(imageTexture, fragment_texture_coordinate).rgb;
+    vec4 base_texture = texture(imageTexture, fragment_texture_coordinate);
+    vec3 base_texture_color = base_texture.rgb;
 
     // Ambient lighting
-    temp_color += ambient_light * base_texture;
+    temp_color += ambient_light * base_texture_color;
 
     for (int i = 0; i < 100; i++) {
-        temp_color += calculate_point_light(point_lights[i], fragment_position, fragment_normal, base_texture);
+        temp_color += calculate_point_light(point_lights[i], fragment_position, fragment_normal, base_texture_color);
     }
 
-    color = vec4(temp_color, 1.0);
+    color = vec4(temp_color, base_texture.a);
 }
 
 vec3 calculate_point_light(PointLight _point_light, vec3 _fragment_position, vec3 _fragment_normal, vec3 _base_texture) {

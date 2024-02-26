@@ -9,6 +9,7 @@ from Engine.node import Node
 from Engine.Lighting.point_light import PointLight
 
 from Engine.components.render_mesh import RenderMesh
+from Engine.components.billboard import Billboard
 
 from Engine.materials.solid_color import SolidColor
 from Engine.materials.solid_image import SolidImage
@@ -55,6 +56,11 @@ def main():
     ship.add_component(RenderMesh('ship', GL_TRIANGLES, 'blinn_navy'))
     ship.add_component(SpinScript(50))
     ship.set_parent(scene)
+
+    bill = Node(scene, 'bill')
+    bill.transform.set_local_position((0, 0, 3))
+    bill.add_component(Billboard('wood'))
+    bill.set_parent(scene)
 
     app.active_scene = scene
     app.run()

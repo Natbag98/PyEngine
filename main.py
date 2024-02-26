@@ -68,4 +68,5 @@ class App:
 
     def exit(self):
         self.graphics_engine.destroy()
+        self.active_scene.destroy()
         quit()

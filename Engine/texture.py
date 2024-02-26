@@ -15,9 +15,9 @@ class Texture:
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
 
         # Load image, generate mipmaps
-        image = pygame.image.load(filename).convert_alpha()
-        image_size = image.get_size()
-        image_data = pygame.image.tostring(image, 'RGBA')
+        self.image = pygame.image.load(filename).convert_alpha()
+        image_size = self.image.get_size()
+        image_data = pygame.image.tostring(self.image, 'RGBA')
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image_size[0], image_size[1], 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data)
         glGenerateMipmap(GL_TEXTURE_2D)
 

@@ -16,3 +16,6 @@ class Component:
 
     def render(self):
         pass
+
+    def destroy(self):
+        pass
