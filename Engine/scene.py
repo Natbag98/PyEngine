@@ -1,4 +1,4 @@
-from main import App
+from Engine.app import App
 from Engine.camera import Camera
 from Engine.Lighting.point_light import PointLight
 
@@ -23,7 +23,14 @@ class Scene:
         light.scene = self
         light.initialize()
         self.lights.append(light)
-    
+
+    def get_all_nodes_with_tag(self, tag):
+        nodes_with_tag = []
+        for c in self.children:
+            for node in c.get_nodes_with_tag(tag):
+                nodes_with_tag.append(node)
+        return nodes_with_tag
+
     def physics_update(self):
         [c.physics_update() for c in self.children]
 

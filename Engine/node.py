@@ -16,6 +16,8 @@ class Node:
         self.transform = Transform(self)
         self.components = {}
 
+        self.tag = ''
+
         self.parent = None
         self.children = []
 
@@ -37,9 +39,14 @@ class Node:
         self.parent = target
         target.children.insert(0, self)
     
-    def add_component(self, component: Component, name=None):
-        if not name:
-            name = component.__class__.__name__
+    def has_component(self, component: Component):
+        return self.components.keys().__contains__(component.__class__.__name__)
+    
+    def get_component(self, component: Component):
+        return self.components[component.__class__.__name__]
+    
+    def add_component(self, component: Component):
+        name = component.__class__.__name__
 
         if name in self.components:
             raise ValueError('Component name already exists')
@@ -47,6 +54,15 @@ class Node:
         component.node = self
         component.initialize()
         self.components[name] = component
+    
+    def get_nodes_with_tag(self, tag):
+        nodes_with_tag = []
+        if self.tag == tag:
+            nodes_with_tag.append(self)
+        for c in self.children:
+            for node in c.get_nodes_with_tag(tag):
+                nodes_with_tag.append(node)
+        return nodes_with_tag
 
     def physics_update(self):
         [c.physics_update() for c in self.components.values()]

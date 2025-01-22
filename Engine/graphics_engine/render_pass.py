@@ -1,4 +1,4 @@
-from main import App
+from Engine.app import App
 from Engine.scene import Scene
 
 from OpenGL.GL import *

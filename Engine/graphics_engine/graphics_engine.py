@@ -1,4 +1,4 @@
-from main import App
+from Engine.app import App
 from Engine.graphics_engine.render_pass import RenderPass
 from Engine.mesh import Mesh
 from Engine.material import Material

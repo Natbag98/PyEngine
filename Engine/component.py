@@ -17,5 +17,8 @@ class Component:
     def render(self):
         pass
 
+    def on_collider_hit(self, node):
+        pass
+
     def destroy(self):
         pass

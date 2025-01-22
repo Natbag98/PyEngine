@@ -36,6 +36,33 @@ class Mesh:
         # Vertex texture coord
         glEnableVertexAttribArray(2)
         glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, self.stride, ctypes.c_void_p(24))
+    
+    def get_local_xyz_vertices(self, with_sperated_vertices=False, with_seperated_channels=False):
+        if not with_seperated_channels:
+            xyz_vertices = []
+        else:
+            xyz_vertices = [[], [], []]
+
+        for i in range(self.vertex_count):
+            vertex = self.vertex_size * i
+            if with_seperated_channels:
+                xyz_vertices[0].append(self.vertices[vertex])
+                xyz_vertices[1].append(self.vertices[vertex + 1])
+                xyz_vertices[2].append(self.vertices[vertex + 2])
+            elif with_sperated_vertices:
+                xyz_vertices.append(
+                    (
+                        self.vertices[vertex],
+                        self.vertices[vertex + 1],
+                        self.vertices[vertex + 2]
+                    )
+                )
+            else:
+                xyz_vertices.append(self.vertices[vertex])
+                xyz_vertices.append(self.vertices[vertex + 1])
+                xyz_vertices.append(self.vertices[vertex + 2])
+        
+        return xyz_vertices
 
     def destroy(self):
         glDeleteVertexArrays(1, (self.vertex_array_object,))
