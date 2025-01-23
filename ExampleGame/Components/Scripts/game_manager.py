@@ -1,6 +1,7 @@
 from Engine.component import Component
 from Engine.node import Node
 from Engine.components.render_mesh import RenderMesh
+from Engine.components.collider import Collider
 
 from  .enemy_script import EnemyScript
 
@@ -26,6 +27,8 @@ class GameManager(Component):
         if self.time_till_next_spawn <= 0:
             self.time_till_next_spawn = random.randint(self.min_spawn_time, self.max_spawn_time)
             enemy = Node(app.active_scene, 'enemy')
+            enemy.tag = 'enemy'
+            enemy.set_parent(app.active_scene)
             enemy.transform.set_local_position(
                 (
                     random.randint(self.MIN_X, self.MAX_X),
@@ -35,5 +38,5 @@ class GameManager(Component):
             )
             enemy.transform.set_scale((0.2, 0.2, 0.2))
             enemy.add_component(RenderMesh('ship', GL_TRIANGLES, 'teal'))
+            enemy.add_component(Collider('ship', ['bullet']))
             enemy.add_component(EnemyScript(app.globals['ENEMY_MOVE_SPEED']))
-            enemy.set_parent(app.active_scene)

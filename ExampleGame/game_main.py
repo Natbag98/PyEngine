@@ -72,7 +72,6 @@ def main():
     app.add_singleton('GameManager', GameManager(MIN_X, MAX_X, MAX_Z))
 
     ship = Node(scene, 'ship')
-    ship.tag = 'node'
     ship.transform.set_local_position((0, 0, 0))
     ship.transform.set_scale((0.2, 0.2, 0.2))
     ship.transform.set_eulers((0, 0, 180))

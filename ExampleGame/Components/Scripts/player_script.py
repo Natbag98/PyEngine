@@ -1,5 +1,6 @@
 from Engine.component import Component
 from Engine.components.render_mesh import RenderMesh
+from Engine.components.collider import Collider
 from Engine.Lighting.point_light import PointLight
 from Engine.node import Node
 import pygame
@@ -36,12 +37,14 @@ class PlayerScript(Component):
 
         if app.input.keys[pygame.K_SPACE].pressed:
             bullet = Node(self.node.scene, 'bullet')
+            bullet.tag = 'bullet'
+            bullet.set_parent(self.node.scene)
             bullet.transform.set_local_position(self.node.transform.local_position)
             bullet.transform.set_scale((0.2, 0.2, 0.2))
             bullet.transform.set_eulers((90, 90, 0))
             bullet.add_component(RenderMesh('bullets', GL_TRIANGLES, 'bullets_mat'))
+            bullet.add_component(Collider('bullets'))
             bullet.add_component(BulletScript(app.globals['BULLET_MOVE_SPEED'], 1))
-            bullet.set_parent(self.node.scene)
 
             self.node.scene.new_light(PointLight((0.5, 0, 0), 'orange', 1), bullet)
             self.node.scene.new_light(PointLight((-0.5, 0, 0), 'orange', 1), bullet)

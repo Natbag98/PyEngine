@@ -19,3 +19,8 @@ class EnemyScript(Component):
 
         if self.node.transform.local_position[2] < -1:
             self.node.destroy()
+
+    def on_collider_hit(self, node):
+        if node.tag == 'bullet':
+            node.destroy()
+        self.node.destroy()
