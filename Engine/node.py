@@ -41,10 +41,10 @@ class Node:
         target.children.append(self)
     
     def has_component(self, component: Component):
-        return self.components.keys().__contains__(component.__class__.__name__)
+        return component.__name__ in self.components.keys()
     
     def get_component(self, component: Component):
-        return self.components[component.__class__.__name__]
+        return self.components[component.__name__]
     
     def add_component(self, component: Component):
         name = component.__class__.__name__

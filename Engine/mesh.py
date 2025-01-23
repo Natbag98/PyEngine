@@ -37,19 +37,19 @@ class Mesh:
         glEnableVertexAttribArray(2)
         glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, self.stride, ctypes.c_void_p(24))
     
-    def get_local_xyz_vertices(self, with_sperated_vertices=False, with_seperated_channels=False):
-        if not with_seperated_channels:
+    def get_local_xyz_vertices(self, with_separated_vertices=False, with_separated_channels=False):
+        if not with_separated_channels:
             xyz_vertices = []
         else:
             xyz_vertices = [[], [], []]
 
         for i in range(self.vertex_count):
-            vertex = self.vertex_size * i
-            if with_seperated_channels:
+            vertex = self.VERTEX_SIZE * i
+            if with_separated_channels:
                 xyz_vertices[0].append(self.vertices[vertex])
                 xyz_vertices[1].append(self.vertices[vertex + 1])
                 xyz_vertices[2].append(self.vertices[vertex + 2])
-            elif with_sperated_vertices:
+            elif with_separated_vertices:
                 xyz_vertices.append(
                     (
                         self.vertices[vertex],
