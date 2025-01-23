@@ -12,6 +12,7 @@ in vec3 fragment_normal;
 out vec4 out_color;
 
 uniform vec3 color;
+uniform int active_light_count;
 uniform PointLight point_lights[100];
 uniform float ambient_light;
 uniform float specular_strength;
@@ -25,7 +26,7 @@ void main() {
     // Ambient lighting
     temp_color += ambient_light * color;
 
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < active_light_count; i++) {
         temp_color += calculate_point_light(point_lights[i], fragment_position, fragment_normal);
     }
 

@@ -10,7 +10,7 @@ from OpenGL.GL import *
 
 class GraphicsEngine:
 
-    def __init__(self, app: App):
+    def __init__(self, app: App, custom_colors):
         self.app = app
 
         self.meshes = {}
@@ -20,11 +20,21 @@ class GraphicsEngine:
 
         colors = {
             'navy': (0, 13, 107),
+            'dark_navy': (0, 2, 21),
             'red': (255, 0, 0),
             'black': (0, 0, 0),
             'green': (0, 1, 0),
-            'purple': (128, 0, 128)
+            'purple': (128, 0, 128),
+            'teal': (153, 221, 204),
+            'white': (255, 255, 255),
+            'blue': (0, 0, 255),
+            'orange': (255, 165, 0)
         }
+
+        if custom_colors:
+            for color in custom_colors:
+                if not color in colors:
+                    colors[color] = custom_colors[color]
 
         self.color_palatte = {
             color: numpy.array([colors[color][0] / 255, colors[color][1] / 255, colors[color][2] / 255], dtype=numpy.float32)

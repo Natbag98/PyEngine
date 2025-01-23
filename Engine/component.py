@@ -11,7 +11,7 @@ class Component:
     def physics_update(self):
         pass
 
-    def update(self):
+    def update(self, app):
         pass
 
     def render(self):

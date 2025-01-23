@@ -24,16 +24,25 @@ class App:
         '4.6': '460'
     }
 
-    def __init__(self, window_properties: WindowProperties=WindowProperties()):
+    def __init__(self, window_properties: WindowProperties=WindowProperties(), custom_colors: dict[str, tuple[int, int, int]]=None, dir=None):
         from Engine.graphics_engine.graphics_engine import GraphicsEngine
+        from Engine.input import Input
+
+        if dir:
+            self.DIR = dir
 
         self.RES = self.WIDTH, self.HEIGHT = window_properties.width, window_properties.height
         self.ASPECT = window_properties.width / window_properties.height
         self.FPS = window_properties.fps
         self.NAME = window_properties.name
         
-        self.graphics_engine = GraphicsEngine(self)
+        self.graphics_engine = GraphicsEngine(self, custom_colors)
         self.active_scene = None
+
+        self.input = Input()
+
+        self.globals = {}
+        self.singletons = {}
 
         self.clock = pygame.time.Clock()
         self.delta_time = 0
@@ -45,6 +54,10 @@ class App:
             raise Exception(
                 f'OpenGL version {self.GL_VERSION} not supported in this project.',
             )
+
+    def add_singleton(self, name, singleton):
+        singleton.initialize()
+        self.singletons[name] = singleton
 
     def check_events(self):
         for event in pygame.event.get():
@@ -62,8 +75,10 @@ class App:
             pygame.display.set_caption(str(frame_rate))
 
             self.check_events()
+            self.input.update()
             self.active_scene.physics_update()
-            self.active_scene.update()
+            [s.update(self) for s in self.singletons.values()]
+            self.active_scene.update(self)
             self.graphics_engine.render(self.active_scene)
 
     def exit(self):

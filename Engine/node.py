@@ -20,6 +20,7 @@ class Node:
 
         self.parent = None
         self.children = []
+        self.lights = []
 
     def attempt_remove_self_from_parent(self):
         if self.parent:
@@ -37,7 +38,7 @@ class Node:
                 raise ValueError('Cannot parent object outside of scene')
 
         self.parent = target
-        target.children.insert(0, self)
+        target.children.append(self)
     
     def has_component(self, component: Component):
         return self.components.keys().__contains__(component.__class__.__name__)
@@ -68,9 +69,9 @@ class Node:
         [c.physics_update() for c in self.components.values()]
         [c.physics_update() for c in self.children]
 
-    def update(self):
-        [c.update() for c in self.components.values()]
-        [c.update() for c in self.children]
+    def update(self, app):
+        [c.update(app) for c in self.components.values()]
+        [c.update(app) for c in self.children]
 
     def render(self):
         [c.render() for c in self.components.values()]
@@ -79,3 +80,7 @@ class Node:
     def destroy(self):
         [c.destroy() for c in self.components.values()]
         [c.destroy() for c in self.children]
+
+        self.attempt_remove_self_from_parent()
+        for light in self.lights:
+            light.destroy()

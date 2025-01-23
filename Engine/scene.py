@@ -16,11 +16,14 @@ class Scene:
         self.ambient_lighting = 0.2
         self.specular_strength = 32
     
-    def new_light(self, light: PointLight):
+    def new_light(self, light: PointLight, parent):
         if len(self.lights) == self.app.graphics_engine.max_lights:
             raise Exception('Max lights reached')
 
         light.scene = self
+        light.set_parent(parent)
+        if not parent.name == 'Scene':
+            parent.lights.append(light)
         light.initialize()
         self.lights.append(light)
 
@@ -34,8 +37,8 @@ class Scene:
     def physics_update(self):
         [c.physics_update() for c in self.children]
 
-    def update(self):
-        [c.update() for c in self.children]
+    def update(self, app):
+        [c.update(app) for c in self.children]
 
     def render(self):
         [c.render() for c in self.children]

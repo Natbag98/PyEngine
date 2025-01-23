@@ -20,6 +20,7 @@ class BlinnPhongSolid(Material):
         self.ambient_light_location = glGetUniformLocation(self.program, 'ambient_light')
         self.specular_strength_location = glGetUniformLocation(self.program, 'specular_strength')
         self.camera_position_location = glGetUniformLocation(self.program, 'camera_position')
+        self.light_count_location = glGetUniformLocation(self.program, 'active_light_count')
 
         self.point_lights_location = {
             'position': [
@@ -50,9 +51,10 @@ class BlinnPhongSolid(Material):
             glUniform1f(self.specular_strength_location, node.scene.specular_strength)
         
         glUniform3fv(self.camera_position_location, 1, node.scene.camera.position)
+        glUniform1i(self.light_count_location, len(self.graphics_engine.lights))
 
         for i, light in enumerate(self.graphics_engine.lights):
-            glUniform3fv(self.point_lights_location['position'][i], 1, light.position)
+            glUniform3fv(self.point_lights_location['position'][i], 1, light.get_position())
             glUniform3fv(self.point_lights_location['color'][i], 1, light.color)
             glUniform1f(self.point_lights_location['strength'][i], light.strength)
 
