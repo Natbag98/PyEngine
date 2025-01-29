@@ -23,3 +23,4 @@ class RenderPass:
         [m.setup() for m in self.app.graphics_engine.materials.values()]
 
         scene.render()
+        scene.render_ui()

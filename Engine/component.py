@@ -1,3 +1,4 @@
+import pygame
 
 
 class Component:
@@ -17,7 +18,13 @@ class Component:
     def render(self):
         pass
 
+    def render_ui(self):
+        pass
+
     def on_collider_hit(self, node):
+        pass
+
+    def ui_button_pressed(self, element):
         pass
 
     def destroy(self):

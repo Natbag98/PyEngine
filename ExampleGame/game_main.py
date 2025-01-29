@@ -10,6 +10,7 @@ from Engine.camera import Camera
 from Engine.Lighting.point_light import PointLight
 
 from Engine.components.render_mesh import RenderMesh
+from Engine.components.ui_element import UIElement
 
 from Engine.materials.solid_image import SolidImage
 from Engine.materials.blinn_phong_image import BlinnPhongImage
@@ -98,6 +99,16 @@ def main():
 
     scene.new_light(PointLight((0, 20, -12), 'blue_white', 400), scene)
     scene.new_light(PointLight((0, 0, 1), 'blue', 5), ship)
+
+    ui_test = Node(scene, "ui_test")
+    ui_test.add_component(
+        UIElement(
+            (0, 0),
+            "Test",
+            30
+        )
+    )
+    ui_test.set_parent(scene)
 
     app.active_scene = scene
     app.run()

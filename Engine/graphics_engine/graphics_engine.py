@@ -7,6 +7,7 @@ import pygame
 import numpy
 from OpenGL.GL.shaders import compileShader, compileProgram
 from OpenGL.GL import *
+from OpenGL.GLU import *
 
 class GraphicsEngine:
 
@@ -54,6 +55,9 @@ class GraphicsEngine:
         glEnable(GL_DEPTH_TEST)
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+
+        gluPerspective(45, app.ASPECT, 0.1, 50.0)
+        glTranslatef(0.0, 0.0, -5)
 
         self.render_pass = RenderPass(self.app)
 
