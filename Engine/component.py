@@ -18,7 +18,7 @@ class Component:
     def render(self):
         pass
 
-    def render_ui(self):
+    def render_ui(self, surface):
         pass
 
     def on_collider_hit(self, node):

@@ -33,9 +33,7 @@ def main():
         'blue_white': (150, 150, 255)
     }
 
-    game_dir = 'C:\\Users\\natha\\PyEngine'
-
-    app = App(window_props, custom_colors, game_dir)
+    app = App(window_props, custom_colors)
 
     app.graphics_engine.new_mesh(f'{app.DIR}\\ExampleGame\\Assets\\SportsCar.obj', 'car')
     app.graphics_engine.new_mesh(f'{app.DIR}\\ExampleGame\\Assets\\space_ship.obj', 'ship')
@@ -103,9 +101,9 @@ def main():
     ui_test = Node(scene, "ui_test")
     ui_test.add_component(
         UIElement(
-            (0, 0),
+            (300, 300),
             "Test",
-            30
+            50
         )
     )
     ui_test.set_parent(scene)

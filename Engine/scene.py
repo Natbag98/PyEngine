@@ -43,8 +43,8 @@ class Scene:
     def render(self):
         [c.render() for c in self.children]
 
-    def render_ui(self):
-        [c.render_ui() for c in self.children]
+    def render_ui(self, surface):
+        [c.render_ui(surface) for c in self.children]
     
     def destroy(self):
         [c.destroy() for c in self.children]

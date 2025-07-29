@@ -56,8 +56,8 @@ class GraphicsEngine:
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
-        gluPerspective(45, app.ASPECT, 0.1, 50.0)
-        glTranslatef(0.0, 0.0, -5)
+        # gluPerspective(45, app.ASPECT, 0.1, 50.0)
+        # glTranslatef(0.0, 0.0, -5)
 
         self.render_pass = RenderPass(self.app)
 
@@ -72,6 +72,9 @@ class GraphicsEngine:
         print(f'GL Renderer  : {gl_renderer}')
         print(f'GL Version   : {gl_version}')
         print(f'GLSL Version : {glsl_version}')
+
+        # Create quad for rendering ui
+        self.new_mesh(f'{self.app.DIR}\\Engine\\assets\\ui_quad.obj', 'ui_quad')
 
     def new_material(self, material: Material, name):
         if name in self.materials:

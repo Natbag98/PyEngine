@@ -24,6 +24,11 @@ class Mesh:
         glBindBuffer(GL_ARRAY_BUFFER, self.vertex_buffer_object)
         glBufferData(GL_ARRAY_BUFFER, self.vertices.nbytes, self.vertices, GL_STATIC_DRAW)
 
+        # Setup index buffer object - Broken
+        # self.index_buffer_object = glGenBuffers(1)
+        # glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, self.index_buffer_object)
+        # glBufferData(GL_ELEMENT_ARRAY_BUFFER, self.vertices.nbytes, self.vertices, GL_STATIC_DRAW)
+
         # Setup attrib pointers
         # Position
         glEnableVertexAttribArray(0)
