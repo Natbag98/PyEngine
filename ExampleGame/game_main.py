@@ -1,5 +1,6 @@
 import os
 import sys
+import pygame
 sys.path.append(os.getcwd())
 
 from Engine.app import App
@@ -12,6 +13,8 @@ from Engine.Lighting.point_light import PointLight
 from Engine.components.render_mesh import RenderMesh
 from Engine.components.ui.text_element import TextElement
 from Engine.components.ui.button import Button
+from Engine.components.ui.image import Image
+from Engine.components.ui.box import Box
 
 from Engine.materials.solid_image import SolidImage
 from Engine.materials.blinn_phong_image import BlinnPhongImage
@@ -74,7 +77,7 @@ def main():
     app.add_singleton('GameManager', GameManager(MIN_X, MAX_X, MAX_Z))
 
     ship = Node(scene, 'ship')
-    ship.transform.set_local_position((0, 0, 0))
+    ship.transform.set_local_position((0, 0, 2))
     ship.transform.set_scale((0.2, 0.2, 0.2))
     ship.transform.set_eulers((0, 0, 180))
     ship.add_component(RenderMesh('ship', GL_TRIANGLES, 'teal'))
@@ -101,25 +104,18 @@ def main():
     scene.new_light(PointLight((0, 20, -12), 'blue_white', 400), scene)
     scene.new_light(PointLight((0, 0, 1), 'blue', 5), ship)
 
-    ui_test = Node(scene, "ui_test")
-    ui_test.add_component(
-        TextElement(
-            (100, 100),
-            "Test",
-            50
+    bottom_bar_height = 100
+
+    ui = Node(scene, 'ui')
+    ui.add_component(
+        Box(
+            pygame.Rect(-10, app.HEIGHT - bottom_bar_height + 10, app.WIDTH + 20, bottom_bar_height + 10),
+            'dark_navy',
+            10,
+            'blue_white'
         )
     )
-    ui_test.add_component(
-        Button(
-            (100, 100),
-            (128, 128, 128, 128),
-            (200, 200),
-            'left',
-            'clicked',
-            (test_clicked_func,)
-        )
-    )
-    ui_test.set_parent(scene)
+    ui.set_parent(scene)
 
     app.active_scene = scene
     app.run()
