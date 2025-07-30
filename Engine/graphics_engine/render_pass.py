@@ -46,7 +46,10 @@ class RenderPass:
         scene.render_ui(ui_surface)
 
         # test draw
-        pygame.draw.rect(ui_surface, (255, 255, 255, 128), (100, 100, 200, 200))
+        # rect = pygame.Rect(100, 100, 200, 200)
+        # temp_surf = pygame.Surface(rect.size).convert_alpha()
+        # temp_surf.fill((255, 255, 255, 128))
+        # ui_surface.blit(temp_surf, rect.topleft)
 
         # Setup ui shader
         glUseProgram(self.ui_program)

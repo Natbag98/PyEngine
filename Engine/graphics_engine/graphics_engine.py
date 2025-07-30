@@ -20,16 +20,16 @@ class GraphicsEngine:
         self.max_lights = 100
 
         colors = {
-            'navy': (0, 13, 107),
-            'dark_navy': (0, 2, 21),
-            'red': (255, 0, 0),
-            'black': (0, 0, 0),
-            'green': (0, 1, 0),
-            'purple': (128, 0, 128),
-            'teal': (153, 221, 204),
-            'white': (255, 255, 255),
-            'blue': (0, 0, 255),
-            'orange': (255, 165, 0)
+            'navy': (0, 13, 107, 255),
+            'dark_navy': (0, 2, 21, 255),
+            'red': (255, 0, 0, 255),
+            'black': (0, 0, 0, 255),
+            'green': (0, 1, 0, 255),
+            'purple': (128, 0, 128, 255),
+            'teal': (153, 221, 204, 255),
+            'white': (255, 255, 255, 255),
+            'blue': (0, 0, 255, 255),
+            'orange': (255, 165, 0, 255)
         }
 
         if custom_colors:
@@ -38,7 +38,10 @@ class GraphicsEngine:
                     colors[color] = custom_colors[color]
 
         self.color_palatte = {
-            color: numpy.array([colors[color][0] / 255, colors[color][1] / 255, colors[color][2] / 255], dtype=numpy.float32)
+            color: numpy.array(
+                [colors[color][0] / 255, colors[color][1] / 255, colors[color][2] / 255, colors[color][3] / 255],
+                dtype=numpy.float32
+            )
             for color in colors
         }
 
@@ -54,10 +57,7 @@ class GraphicsEngine:
         glClearColor(self.color_palatte['black'][0], self.color_palatte['black'][1], self.color_palatte['black'][2], 1)
         glEnable(GL_DEPTH_TEST)
         glEnable(GL_BLEND)
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-
-        # gluPerspective(45, app.ASPECT, 0.1, 50.0)
-        # glTranslatef(0.0, 0.0, -5)
+        glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA)
 
         self.render_pass = RenderPass(self.app)
 
@@ -75,6 +75,15 @@ class GraphicsEngine:
 
         # Create quad for rendering ui
         self.new_mesh(f'{self.app.DIR}\\Engine\\assets\\ui_quad.obj', 'ui_quad')
+
+    def get_color(self, color):
+        if type(color) == str:
+            return self.color_palatte[color]
+        else:
+            return numpy.array([color[0] / 255, color[1] / 255, color[2] / 255, color[3] / 255])
+
+    def get_pygame_color(self, color: numpy.array):
+        return (color[0] * 255, color[1] * 255, color[2] * 255, color[3] * 255)
 
     def new_material(self, material: Material, name):
         if name in self.materials:

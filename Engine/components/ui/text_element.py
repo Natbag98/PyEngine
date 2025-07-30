@@ -3,7 +3,7 @@ from Engine.component import Component
 
 from OpenGL.GL import *
 
-class UIElement(Component):
+class TextElement(Component):
 
     def __init__(
         self,
@@ -11,35 +11,31 @@ class UIElement(Component):
         text=None,
         text_size=None,
         font=None,
-        text_color='black',
-        color='white',
-        size=None
+        text_color='black'
     ):
+        super().__init__()
+
         self.rect = None
-        self.size = size
         self.pos = pos
         self.text = text
         self.text_size = text_size
         self.font = font
         self.text_color = text_color
-        self.color = color
 
     def initialize(self):
-        if self.text:
-            self.render_text()
-
-        self.rect = pygame.Rect(self.pos, self.size)
+        self.text_color = self.node.scene.app.graphics_engine.get_color(self.text_color)
+        self.render_text()
 
     def render_text(self):
         sys_font = pygame.font.SysFont(self.font, self.text_size)
         if type(self.text) not in [str, bytes]:
             self.text = ' '
-        self.text = sys_font.render(self.text, True, self.text_color)
+        self.text = sys_font.render(self.text, True, self.node.scene.app.graphics_engine.get_pygame_color(self.text_color))
         self.size = self.text.get_size()
-
-    def update(self, app):
-        if app.input.mouse['left'].interact(self.rect, 'clicked'):
-            [c.ui_button_pressed(self) for c in self.node.components.values()]
+        self.rect = pygame.Rect(self.pos, self.size)
 
     def render_ui(self, surface):
-        surface.blit(self.text, self.rect)
+        temp_surf = pygame.Surface(self.rect.size).convert_alpha()
+        temp_surf.fill((0, 0, 0, 0))
+        temp_surf.blit(self.text, (0, 0))
+        surface.blit(temp_surf, self.rect.topleft)

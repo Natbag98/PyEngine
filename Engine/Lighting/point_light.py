@@ -28,7 +28,7 @@ class PointLight:
         self.parent = target
     
     def initialize(self):
-        self.color = self.scene.app.graphics_engine.color_palatte[self.color]
+        self.color = self.scene.app.graphics_engine.get_color(self.color)
 
     def destroy(self):
         self.scene.lights.remove(self)

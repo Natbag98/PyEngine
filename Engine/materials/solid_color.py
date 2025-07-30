@@ -18,4 +18,4 @@ class SolidColor(Material):
     def use(self, node):
         super().use(node)
 
-        glUniform3fv(self.color_uniform_location, 1, self.graphics_engine.color_palatte[self.color])
+        glUniform3fv(self.color_uniform_location, 1, self.graphics_engine.get_color(self.color))

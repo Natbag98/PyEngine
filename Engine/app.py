@@ -24,7 +24,12 @@ class App:
         '4.6': '460'
     }
 
-    def __init__(self, window_properties: WindowProperties=WindowProperties(), custom_colors: dict[str, tuple[int, int, int]]=None, dir=None):
+    def __init__(
+        self,
+        window_properties: WindowProperties=WindowProperties(),
+        custom_colors: dict[str, tuple[int, int, int, int]]=None,
+        dir=None
+    ):
         from Engine.graphics_engine.graphics_engine import GraphicsEngine
         from Engine.input import Input
 

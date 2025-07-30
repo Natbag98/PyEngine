@@ -58,4 +58,4 @@ class BlinnPhongSolid(Material):
             glUniform3fv(self.point_lights_location['color'][i], 1, light.color)
             glUniform1f(self.point_lights_location['strength'][i], light.strength)
 
-        glUniform3fv(self.color_uniform_location, 1, self.graphics_engine.color_palatte[self.color])
+        glUniform3fv(self.color_uniform_location, 1, self.graphics_engine.get_color(self.color))

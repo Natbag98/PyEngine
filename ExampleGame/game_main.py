@@ -10,7 +10,8 @@ from Engine.camera import Camera
 from Engine.Lighting.point_light import PointLight
 
 from Engine.components.render_mesh import RenderMesh
-from Engine.components.ui_element import UIElement
+from Engine.components.ui.text_element import TextElement
+from Engine.components.ui.button import Button
 
 from Engine.materials.solid_image import SolidImage
 from Engine.materials.blinn_phong_image import BlinnPhongImage
@@ -24,13 +25,15 @@ from Components.Scripts.game_manager import GameManager
 from OpenGL.GL import GL_TRIANGLES, GL_LINES
 
 
+def test_clicked_func(app: App, button: Button):
+    print("clicked")
+
+
 def main():
     window_props = WindowProperties()
-    window_props.width *= 1.5
-    window_props.height *= 1.5
 
     custom_colors = {
-        'blue_white': (150, 150, 255)
+        'blue_white': (150, 150, 255, 255)
     }
 
     app = App(window_props, custom_colors)
@@ -100,10 +103,20 @@ def main():
 
     ui_test = Node(scene, "ui_test")
     ui_test.add_component(
-        UIElement(
-            (300, 300),
+        TextElement(
+            (100, 100),
             "Test",
             50
+        )
+    )
+    ui_test.add_component(
+        Button(
+            (100, 100),
+            (128, 128, 128, 128),
+            (200, 200),
+            'left',
+            'clicked',
+            (test_clicked_func,)
         )
     )
     ui_test.set_parent(scene)
