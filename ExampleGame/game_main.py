@@ -44,7 +44,9 @@ def main():
     app.graphics_engine.new_mesh(f'{app.DIR}\\ExampleGame\\Assets\\SportsCar.obj', 'car')
     app.graphics_engine.new_mesh(f'{app.DIR}\\ExampleGame\\Assets\\space_ship.obj', 'ship')
     app.graphics_engine.new_mesh(f'{app.DIR}\\ExampleGame\\Assets\\mountains.obj', 'mountains')
-    app.graphics_engine.new_mesh(f'{app.DIR}\\ExampleGame\\Assets\\basic_bullets.obj', 'bullets', 'right')
+    app.graphics_engine.new_mesh(f'{app.DIR}\\ExampleGame\\Assets\\bullets_1.obj', 'bullets')
+    app.graphics_engine.new_mesh(f'{app.DIR}\\ExampleGame\\Assets\\basic_bullets.obj', 'basic_bullet_left', 'left')
+    app.graphics_engine.new_mesh(f'{app.DIR}\\ExampleGame\\Assets\\basic_bullets.obj', 'basic_bullet_right', 'right')
 
     app.graphics_engine.new_material(BlinnPhongSolid('red'), 'red')
     app.graphics_engine.new_material(BlinnPhongSolid('teal'), 'teal')
@@ -105,14 +107,27 @@ def main():
     scene.new_light(PointLight((0, 0, 1), 'blue', 5), ship)
 
     bottom_bar_height = 100
+    bottom_border_weight = 10
 
     ui = Node(scene, 'ui')
     ui.add_component(
         Box(
-            pygame.Rect(-10, app.HEIGHT - bottom_bar_height + 10, app.WIDTH + 20, bottom_bar_height + 10),
+            pygame.Rect(
+                -bottom_border_weight,
+                app.HEIGHT - bottom_bar_height + bottom_border_weight,
+                app.WIDTH + bottom_border_weight * 2,
+                bottom_bar_height + bottom_border_weight
+            ),
             'dark_navy',
-            10,
+            bottom_border_weight,
             'blue_white'
+        )
+    )
+    ui.add_component(
+        Image(
+            (app.WIDTH // 2 - 50, app.HEIGHT - bottom_bar_height + bottom_border_weight),
+            f'{app.DIR}\\ExampleGame\\Assets\\ship_image.png',
+            (bottom_bar_height, bottom_bar_height)
         )
     )
     ui.set_parent(scene)
