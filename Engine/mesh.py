@@ -8,11 +8,11 @@ class Mesh:
     INT_BITSIZE = 4
     VERTEX_SIZE = 8
 
-    def __init__(self, filename):
+    def __init__(self, filename, obj: str='first'):
         self.stride = self.INT_BITSIZE * self.VERTEX_SIZE
 
         # v, vn, vt
-        self.vertices = numpy.array(WavefrontLoader().load(filename), numpy.float32)
+        self.vertices = numpy.array(WavefrontLoader().load(filename, obj), numpy.float32)
         self.vertex_count = len(self.vertices) // self.VERTEX_SIZE
 
         # Setup vertex array object

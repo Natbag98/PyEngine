@@ -93,11 +93,11 @@ class GraphicsEngine:
         material.initialize()
         self.materials[name] = material
     
-    def new_mesh(self, file_name, name):
+    def new_mesh(self, file_name, name, obj: str='first'):
         if name in self.meshes:
             raise ValueError(f'{name} is already the name of a mesh')
 
-        self.meshes[name] = Mesh(file_name)
+        self.meshes[name] = Mesh(file_name, obj)
     
     def compile_shader_src(self, src: list[str]):
         supported_version = self.app.SUPPORTED_OPENGL_GLSL_VERSIONS[self.app.GL_VERSION[:3]]

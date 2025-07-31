@@ -44,7 +44,7 @@ def main():
     app.graphics_engine.new_mesh(f'{app.DIR}\\ExampleGame\\Assets\\SportsCar.obj', 'car')
     app.graphics_engine.new_mesh(f'{app.DIR}\\ExampleGame\\Assets\\space_ship.obj', 'ship')
     app.graphics_engine.new_mesh(f'{app.DIR}\\ExampleGame\\Assets\\mountains.obj', 'mountains')
-    app.graphics_engine.new_mesh(f'{app.DIR}\\ExampleGame\\Assets\\bullets_1.obj', 'bullets')
+    app.graphics_engine.new_mesh(f'{app.DIR}\\ExampleGame\\Assets\\basic_bullets.obj', 'bullets', 'right')
 
     app.graphics_engine.new_material(BlinnPhongSolid('red'), 'red')
     app.graphics_engine.new_material(BlinnPhongSolid('teal'), 'teal')
