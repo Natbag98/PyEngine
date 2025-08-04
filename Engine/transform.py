@@ -1,4 +1,5 @@
 from Engine.node import Node
+from Engine.scene import Scene
 
 import numpy
 from pyrr import matrix44
@@ -14,7 +15,7 @@ class Transform:
         self.scale = numpy.array([1, 1, 1], numpy.float32)
 
     def get_global_position(self):
-        if self.node.parent.name == 'Scene':
+        if type(self.node.parent) == Scene:
             return self.local_position
         return self.node.parent.transform.get_global_position() + self.local_position
 

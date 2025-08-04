@@ -13,12 +13,14 @@ class PointLight:
         self.parent = None
 
     def get_position(self):
-        if self.parent.name == 'Scene':
+        from Engine.scene import Scene
+        if type(self.parent) == Scene:
             return self.local_position
         return self.parent.transform.get_global_position() + self.local_position
 
     def set_parent(self, target):
-        if target.name == 'Scene':
+        from Engine.scene import Scene
+        if type(target) == Scene:
             if not self.scene == target:
                 raise ValueError('Cannot parent object outside of scene')
         else:

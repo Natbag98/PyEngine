@@ -43,11 +43,13 @@ class App:
         
         self.graphics_engine = GraphicsEngine(self, custom_colors)
         self.active_scene = None
+        self.scenes = {}
 
         self.input = Input()
 
         self.globals = {}
         self.singletons = {}
+        self.singleton_scenes = {}
 
         self.clock = pygame.time.Clock()
         self.delta_time = 0
@@ -60,9 +62,10 @@ class App:
                 f'OpenGL version {self.GL_VERSION} not supported in this project.',
             )
 
-    def add_singleton(self, name, singleton):
+    def add_singleton(self, name, singleton, active_scenes: tuple[str]=()):
         singleton.initialize()
         self.singletons[name] = singleton
+        self.singleton_scenes[name] = list(active_scenes)
 
     def check_events(self):
         for event in pygame.event.get():
@@ -71,6 +74,11 @@ class App:
     
     def run(self):
         self.running = True
+
+        for singleton in self.singleton_scenes:
+            if not self.singleton_scenes[singleton]:
+                for scene in self.scenes:
+                    self.singleton_scenes[singleton].append(scene)
 
         while self.running:
             self.delta_time = self.clock.tick(self.FPS)
@@ -82,7 +90,10 @@ class App:
             self.check_events()
             self.input.update()
             self.active_scene.physics_update()
-            [s.update(self) for s in self.singletons.values()]
+            for s in self.singletons:
+                print(self.singleton_scenes[s])
+                print(self.active_scene.name)
+            [self.singletons[s].update(self) for s in self.singletons if self.active_scene.name in self.singleton_scenes[s]]
             self.active_scene.update(self)
             self.graphics_engine.render(self.active_scene)
 

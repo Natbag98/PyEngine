@@ -29,19 +29,41 @@ from Components.Scripts.game_manager import GameManager
 from OpenGL.GL import GL_TRIANGLES, GL_LINES
 
 
-def test_clicked_func(app: App, button: Button):
-    print("clicked")
+def play_button_clicked(app: App, button: Button) -> None:
+    app.active_scene = app.scenes['main_scene']
 
 
-def main():
-    window_props = WindowProperties()
+def create_menu_scene(app: App):
+    scene = Scene(app, 'main_menu')
 
-    custom_colors = {
-        'blue_white': (150, 150, 255, 255)
-    }
+    ui = Node(scene, 'ui')
 
-    app = App(window_props, custom_colors)
+    main_buttons_left_top = (100, 100)
+    play_button_size = (200, 75)
 
+    ui.add_component(
+        Button(
+            main_buttons_left_top,
+            (100, 100, 100, 255),
+            play_button_size,
+            'left',
+            'clicked',
+            (play_button_clicked,)
+        )
+    )
+    ui.add_component(
+        TextElement(
+            main_buttons_left_top,
+            'Play',
+            30
+        )
+    )
+
+    ui.set_parent(scene)
+
+    return scene
+
+def create_main_scene(app: App):
     app.graphics_engine.new_mesh(f'{app.DIR}\\ExampleGame\\Assets\\SportsCar.obj', 'car')
     app.graphics_engine.new_mesh(f'{app.DIR}\\ExampleGame\\Assets\\space_ship.obj', 'ship')
     app.graphics_engine.new_mesh(f'{app.DIR}\\ExampleGame\\Assets\\mountains.obj', 'mountains')
@@ -57,7 +79,7 @@ def main():
     app.graphics_engine.new_material(BlinnPhongImage(f'{app.DIR}\\ExampleGame\\Assets\\wood_2.webp'), 'blinn_wood')
     app.graphics_engine.new_material(BlinnPhongSolid('navy'), 'blinn_navy')
 
-    scene = Scene(app)
+    scene = Scene(app, 'main_scene')
     scene.camera = Camera((0, 5, -12), (0, -0.2, 1.75))
 
     scene.ambient_lighting = 0.5
@@ -77,7 +99,7 @@ def main():
     app.globals['ENEMY_MOVE_SPEED'] = 5
     app.globals['MAX_Z'] = MAX_Z
 
-    app.add_singleton('GameManager', GameManager(MIN_X, MAX_X, MAX_Z))
+    app.add_singleton('GameManager', GameManager(MIN_X, MAX_X, MAX_Z), ('main_scene',))
 
     bottom_bar_height = 100
     bottom_border_weight = 10
@@ -166,7 +188,20 @@ def main():
     scene.new_light(PointLight((0, 20, -12), 'blue_white', 400), scene)
     scene.new_light(PointLight((0, 0, 1), 'blue', 5), ship)
 
-    app.active_scene = scene
+    return scene
+
+
+def main():
+    window_props = WindowProperties()
+
+    custom_colors = {
+        'blue_white': (150, 150, 255, 255)
+    }
+
+    app = App(window_props, custom_colors)
+    app.scenes['main_scene'] = create_main_scene(app)
+    app.scenes['main_menu'] = create_menu_scene(app)
+    app.active_scene = app.scenes['main_menu']
     app.run()
 
 

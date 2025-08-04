@@ -5,9 +5,9 @@ from Engine.Lighting.point_light import PointLight
 
 class Scene:
 
-    def __init__(self, app: App):
+    def __init__(self, app: App, name='Scene'):
         self.app = app
-        self.name = 'Scene'
+        self.name = name
 
         self.children = []
         self.camera = Camera()

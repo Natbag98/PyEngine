@@ -30,7 +30,7 @@ class Node:
     def set_parent(self, target):
         self.attempt_remove_self_from_parent()
 
-        if target.name == 'Scene':
+        if type(target) == Scene:
             if not self.scene == target:
                 raise ValueError('Cannot parent object outside of scene')
         else:
