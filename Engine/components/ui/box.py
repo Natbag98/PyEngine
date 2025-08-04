@@ -21,7 +21,8 @@ class Box(Component):
 
     def initialize(self):
         self.color = self.node.scene.app.graphics_engine.get_color(self.color)
-        self.border_color = self.node.scene.app.graphics_engine.get_color(self.border_color)
+        if self.border_color:
+            self.border_color = self.node.scene.app.graphics_engine.get_color(self.border_color)
 
     def render_ui(self, surface):
         temp_surf = pygame.Surface(self.rect.size).convert_alpha()

@@ -45,12 +45,6 @@ class RenderPass:
         ui_surface.fill((0, 0, 0, 0))
         scene.render_ui(ui_surface)
 
-        # test draw
-        # rect = pygame.Rect(100, 100, 200, 200)
-        # temp_surf = pygame.Surface(rect.size).convert_alpha()
-        # temp_surf.fill((255, 255, 255, 128))
-        # ui_surface.blit(temp_surf, rect.topleft)
-
         # Setup ui shader
         glUseProgram(self.ui_program)
         glUniformMatrix4fv(self.ui_projection_location, 1, GL_FALSE, self.orthographic_projection_matrix_2d)

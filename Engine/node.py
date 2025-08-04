@@ -43,11 +43,14 @@ class Node:
     def has_component(self, component: Component):
         return component.__name__ in self.components.keys()
     
-    def get_component(self, component: Component):
-        return self.components[component.__name__]
+    def get_component(self, component: Component, name: str=None) -> Component:
+        if not name:
+            name = component.__name__
+        return self.components[name]
     
-    def add_component(self, component: Component):
-        name = component.__class__.__name__
+    def add_component(self, component: Component, name: str=None) -> Component:
+        if not name:
+            name = component.__class__.__name__
 
         if name in self.components:
             raise ValueError('Component name already exists')
@@ -55,7 +58,8 @@ class Node:
         component.node = self
         component.initialize()
         self.components[name] = component
-    
+        return component
+
     def get_nodes_with_tag(self, tag):
         nodes_with_tag = []
         if self.tag == tag:

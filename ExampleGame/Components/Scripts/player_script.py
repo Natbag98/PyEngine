@@ -3,6 +3,7 @@ from Engine.components.render_mesh import RenderMesh
 from Engine.components.collider import Collider
 from Engine.Lighting.point_light import PointLight
 from Engine.node import Node
+from Engine.components.ui.fill_box import FillBox
 import pygame
 
 from .bullet_script import BulletScript
@@ -16,13 +17,16 @@ class PlayerScript(Component):
         'right': (-0.5, 0, 0),
     }
 
-    def __init__(self, max_x, min_x, move_speed):
+    def __init__(self, max_x, min_x, move_speed, reload_bar_left, reload_bar_right):
         super().__init__()
 
         self.max_x = max_x
         self.min_x = min_x
         self.move_speed = move_speed
         self.reload_timers = {'left': self.reload_speed, 'right': self.reload_speed}
+
+        self.reload_bar_left: FillBox = reload_bar_left
+        self.reload_bar_right: FillBox = reload_bar_right
 
     def shoot_bullet(self, app, side: str):
         if not self.reload_timers[side] > self.reload_speed:
@@ -67,3 +71,6 @@ class PlayerScript(Component):
             self.shoot_bullet(app, 'left')
         if app.input.keys[pygame.K_k].held:
             self.shoot_bullet(app, 'right')
+
+        self.reload_bar_left.fill = (self.reload_timers['left'] / self.reload_speed) * 100
+        self.reload_bar_right.fill = (self.reload_timers['right'] / self.reload_speed) * 100

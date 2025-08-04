@@ -15,6 +15,7 @@ from Engine.components.ui.text_element import TextElement
 from Engine.components.ui.button import Button
 from Engine.components.ui.image import Image
 from Engine.components.ui.box import Box
+from Engine.components.ui.fill_box import FillBox
 
 from Engine.materials.solid_image import SolidImage
 from Engine.materials.blinn_phong_image import BlinnPhongImage
@@ -78,12 +79,71 @@ def main():
 
     app.add_singleton('GameManager', GameManager(MIN_X, MAX_X, MAX_Z))
 
+    bottom_bar_height = 100
+    bottom_border_weight = 10
+
+    ui = Node(scene, 'ui')
+    ui.add_component(
+        Box(
+            pygame.Rect(
+                -bottom_border_weight,
+                app.HEIGHT - bottom_bar_height + bottom_border_weight,
+                app.WIDTH + bottom_border_weight * 2,
+                bottom_bar_height + bottom_border_weight
+            ),
+            'dark_navy',
+            bottom_border_weight,
+            'blue_white'
+        )
+    )
+    ui.add_component(
+        Image(
+            (app.WIDTH // 2 - bottom_bar_height // 2, app.HEIGHT - bottom_bar_height + bottom_border_weight),
+            f'{app.DIR}\\ExampleGame\\Assets\\ship_image.png',
+            (bottom_bar_height, bottom_bar_height)
+        )
+    )
+
+    reload_bar_width = 25
+    reload_bar_dist = 60
+
+    reload_bar_left = ui.add_component(
+        FillBox(
+            pygame.Rect(
+                app.WIDTH // 2 - reload_bar_dist - reload_bar_width / 2,
+                app.HEIGHT - bottom_bar_height + bottom_border_weight + 20,
+                reload_bar_width,
+                bottom_bar_height * 0.6
+            ),
+            'green',
+            'bottom',
+            'red'
+        ),
+        'reload_bar_left'
+    )
+    reload_bar_right = ui.add_component(
+        FillBox(
+            pygame.Rect(
+                app.WIDTH // 2 + reload_bar_dist - reload_bar_width / 2,
+                app.HEIGHT - bottom_bar_height + bottom_border_weight + 20,
+                reload_bar_width,
+                bottom_bar_height * 0.6
+            ),
+            'green',
+            'bottom',
+            'red'
+        ),
+        'reload_bar_right'
+    )
+
+    ui.set_parent(scene)
+
     ship = Node(scene, 'ship')
     ship.transform.set_local_position((0, 0, 2))
     ship.transform.set_scale((0.2, 0.2, 0.2))
     ship.transform.set_eulers((0, 0, 180))
     ship.add_component(RenderMesh('ship', GL_TRIANGLES, 'teal'))
-    ship.add_component(PlayerScript(MAX_X, MIN_X, PLAYER_MOVE_SPEED))
+    ship.add_component(PlayerScript(MAX_X, MIN_X, PLAYER_MOVE_SPEED, reload_bar_left, reload_bar_right))
     ship.set_parent(scene)
 
     mountains_empty = Node(scene, 'mountains_empty')
@@ -105,32 +165,6 @@ def main():
 
     scene.new_light(PointLight((0, 20, -12), 'blue_white', 400), scene)
     scene.new_light(PointLight((0, 0, 1), 'blue', 5), ship)
-
-    bottom_bar_height = 100
-    bottom_border_weight = 10
-
-    ui = Node(scene, 'ui')
-    ui.add_component(
-        Box(
-            pygame.Rect(
-                -bottom_border_weight,
-                app.HEIGHT - bottom_bar_height + bottom_border_weight,
-                app.WIDTH + bottom_border_weight * 2,
-                bottom_bar_height + bottom_border_weight
-            ),
-            'dark_navy',
-            bottom_border_weight,
-            'blue_white'
-        )
-    )
-    ui.add_component(
-        Image(
-            (app.WIDTH // 2 - 50, app.HEIGHT - bottom_bar_height + bottom_border_weight),
-            f'{app.DIR}\\ExampleGame\\Assets\\ship_image.png',
-            (bottom_bar_height, bottom_bar_height)
-        )
-    )
-    ui.set_parent(scene)
 
     app.active_scene = scene
     app.run()
