@@ -1,4 +1,5 @@
 import pygame
+from typing import Any
 
 
 class Input:
@@ -9,7 +10,7 @@ class Input:
     }
 
     def __init__(self):
-        self.keys = {
+        self.keys: dict[Any, Key] = {
             pygame.__dict__[attr]: Key(pygame.__dict__[attr])
             for attr in dir(pygame)
             if attr.startswith('K_')

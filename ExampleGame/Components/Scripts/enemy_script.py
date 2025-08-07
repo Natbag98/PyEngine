@@ -9,16 +9,17 @@ class EnemyScript(Component):
         self.move_speed = move_speed
 
     def update(self, app):
-        self.node.transform.set_local_position(
-            (
-                self.node.transform.local_position[0],
-                self.node.transform.local_position[1],
-                self.node.transform.local_position[2] + app.delta_time * -self.move_speed
+        if not app.singletons['GameManager'].paused:
+            self.node.transform.set_local_position(
+                (
+                    self.node.transform.local_position[0],
+                    self.node.transform.local_position[1],
+                    self.node.transform.local_position[2] + app.delta_time * -self.move_speed
+                )
             )
-        )
 
-        if self.node.transform.local_position[2] < -1:
-            self.node.destroy()
+            if self.node.transform.local_position[2] < -1:
+                self.node.destroy()
 
     def on_collider_hit(self, node):
         if node.tag == 'bullet':

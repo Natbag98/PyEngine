@@ -90,9 +90,6 @@ class App:
             self.check_events()
             self.input.update()
             self.active_scene.physics_update()
-            for s in self.singletons:
-                print(self.singleton_scenes[s])
-                print(self.active_scene.name)
             [self.singletons[s].update(self) for s in self.singletons if self.active_scene.name in self.singleton_scenes[s]]
             self.active_scene.update(self)
             self.graphics_engine.render(self.active_scene)

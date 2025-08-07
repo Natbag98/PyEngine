@@ -4,6 +4,7 @@ from Engine.components.collider import Collider
 from Engine.Lighting.point_light import PointLight
 from Engine.node import Node
 from Engine.components.ui.fill_box import FillBox
+from Engine.app import App
 import pygame
 
 from .bullet_script import BulletScript
@@ -47,30 +48,31 @@ class PlayerScript(Component):
 
         self.node.scene.new_light(PointLight(self.bullet_light_pos[side], 'orange', 1), bullet)
 
-    def update(self, app):
-        for reload_timer in self.reload_timers:
-            self.reload_timers[reload_timer] += app.delta_time
+    def update(self, app: App):
+        if not app.singletons['GameManager'].paused:
+            for reload_timer in self.reload_timers:
+                self.reload_timers[reload_timer] += app.delta_time
 
-        move_dir = 0
-        if app.input.keys[pygame.K_a].held or app.input.keys[pygame.K_LEFT].held:
-            move_dir += 1
-        if app.input.keys[pygame.K_d].held or app.input.keys[pygame.K_RIGHT].held:
-            move_dir -= 1
+            move_dir = 0
+            if app.input.keys[pygame.K_a].held or app.input.keys[pygame.K_LEFT].held:
+                move_dir += 1
+            if app.input.keys[pygame.K_d].held or app.input.keys[pygame.K_RIGHT].held:
+                move_dir -= 1
 
-        x_pos = self.node.transform.local_position[0] + move_dir * app.delta_time * self.move_speed
-        x_pos = min(self.max_x, max(self.min_x, x_pos))
-        self.node.transform.set_local_position(
-            (
-                x_pos,
-                self.node.transform.local_position[1],
-                self.node.transform.local_position[2]
+            x_pos = self.node.transform.local_position[0] + move_dir * app.delta_time * self.move_speed
+            x_pos = min(self.max_x, max(self.min_x, x_pos))
+            self.node.transform.set_local_position(
+                (
+                    x_pos,
+                    self.node.transform.local_position[1],
+                    self.node.transform.local_position[2]
+                )
             )
-        )
 
-        if app.input.keys[pygame.K_m].held:
-            self.shoot_bullet(app, 'left')
-        if app.input.keys[pygame.K_k].held:
-            self.shoot_bullet(app, 'right')
+            if app.input.keys[pygame.K_m].held:
+                self.shoot_bullet(app, 'left')
+            if app.input.keys[pygame.K_k].held:
+                self.shoot_bullet(app, 'right')
 
-        self.reload_bar_left.fill = (self.reload_timers['left'] / self.reload_speed) * 100
-        self.reload_bar_right.fill = (self.reload_timers['right'] / self.reload_speed) * 100
+            self.reload_bar_left.fill = (self.reload_timers['left'] / self.reload_speed) * 100
+            self.reload_bar_right.fill = (self.reload_timers['right'] / self.reload_speed) * 100

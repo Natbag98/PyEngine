@@ -1,3 +1,5 @@
+import pygame
+
 from Engine.component import Component
 from Engine.node import Node
 from Engine.components.render_mesh import RenderMesh
@@ -16,13 +18,15 @@ class GameManager(Component):
         self.min_spawn_time = 2
         self.max_spawn_time = 4
         self.time_till_next_spawn = 0
+        self.paused = False
 
         self.MIN_X = MIN_X
         self.MAX_X = MAX_X
         self.MAX_Z = MAX_Z
 
     def update(self, app):
-        self.time_till_next_spawn -= app.delta_time
+        if not self.paused:
+            self.time_till_next_spawn -= app.delta_time
 
         if self.time_till_next_spawn <= 0:
             self.time_till_next_spawn = random.randint(self.min_spawn_time, self.max_spawn_time)
@@ -40,3 +44,6 @@ class GameManager(Component):
             enemy.add_component(RenderMesh('ship', GL_TRIANGLES, 'teal'))
             enemy.add_component(Collider('ship', ['bullet']))
             enemy.add_component(EnemyScript(app.globals['ENEMY_MOVE_SPEED']))
+
+        if app.input.keys[pygame.K_ESCAPE].pressed:
+            self.paused = not self.paused
