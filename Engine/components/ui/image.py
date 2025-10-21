@@ -27,5 +27,5 @@ class Image(Component):
 
         self.rect = pygame.Rect(self.pos, self.size)
 
-    def render_ui(self, surface):
+    def render_ui(self, surface: pygame.Surface):
         surface.blit(self.image, self.rect)
