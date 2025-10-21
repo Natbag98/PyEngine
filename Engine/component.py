@@ -1,10 +1,14 @@
+from __future__ import annotations
+from typing_extensions import TYPE_CHECKING
 import pygame
 
+if TYPE_CHECKING:
+    from node import Node
 
 class Component:
     
     def __init__(self):
-        self.node = None
+        self.node: "Node" = None
 
     def initialize(self):
         pass
